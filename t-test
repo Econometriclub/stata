@@ -1,0 +1,18 @@
+clear
+use "E:\data12.dta", clear
+tempname econometrics_ttest
+tempfile ttests
+postfile `econometrics_ttest' str12 name t_statistic using `ttests'
+foreach var of varlist  x1-x100 {
+	ttest `var', by(event)
+     	local tstat = r(t) 
+     	post `econometrics_ttest' ("`var'") (`tstat')
+}
+postclose `econometrics_ttest'
+clear
+use `ttests'
+label var t_statistic "Unequal Variance type t-Statistic"
+rename name variable_name
+label var variable_name "Variable Tested for Different in Mean Post minus Pre event"
+export excel using "E:\t_statistic.xls", firstrow(variables) replace
+list
