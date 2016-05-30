@@ -1,0 +1,15 @@
+clear
+use "E:\data12.dta", clear
+tempname econometrics_swilk
+tempfile swilk
+postfile `econometrics_swilk' str12 name swilk using `swilk'
+foreach var of varlist  x1-x100 {
+     	swilk `var'
+     	local swilk = r(W) 
+     	post `econometrics_swilk' ("`var'") (`swilk')
+}
+postclose `econometrics_swilk'
+clear
+use `swilk'
+export excel using "E:\swilk_statistic.xls", firstrow(variables) replace
+list
