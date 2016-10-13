@@ -1,0 +1,8 @@
+***Set the directory to one of your desired disk folder.
+cd "F:\Econometrics Courses Online\Advanced Econometrics Research"
+***Foreach all your variables into the following line
+foreach var of varlist ln_inv dln_inv ln_inc dln_inc ln_consump dln_consump {
+***Produce the desired graph types and saving() save it to the above folder.
+graph bar (count) `var', saving(graph_of_`var'.png)
+***close and run the code to produce all graphs
+}
